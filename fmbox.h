@@ -2,9 +2,6 @@
 
 #include <time.h>
 #include <stdio.h>
-#include <unistd.h>
-
-#include <glut/glut.h>
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -13,6 +10,8 @@
 #include "http_parser.h"
 #include <json-c/json.h>
 #include <json-c/printbuf.h>
+
+#include <plat.h>
 
 extern uv_loop_t* uv_loop;
 

@@ -15,7 +15,6 @@
 */
 #include "fmbox.h"
 
-#include <plat.h>
 #include <stdlib.h>
 
 uv_loop_t* uv_loop;
