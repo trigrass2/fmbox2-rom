@@ -7,6 +7,8 @@ static void on_data_done(client_t *client) {
 
 	struct jpeg_decompress_struct cinfo;
 	struct jpeg_error_mgr jerr;
+	
+	int row_stride;
 
 	jpeg_create_decompress(&cinfo);
 	jpeg_stdio_src(&cinfo, client->fp);
@@ -20,7 +22,7 @@ static void on_data_done(client_t *client) {
 	if (cinfo.output_components != 3)
 		goto err_out;
 
-	int row_stride = cinfo.output_width * 3;
+	row_stride = cinfo.output_width * 3;
 	cc->buf.data = (char *)malloc(cinfo.output_height * cinfo.output_width * 3);
 	cc->buf.w = cinfo.output_width;
 	cc->buf.h = cinfo.output_height;

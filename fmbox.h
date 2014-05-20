@@ -2,8 +2,9 @@
 
 #include <time.h>
 #include <stdio.h>
+#include <unistd.h>
 
-#include <glut.h>
+#include <glut/glut.h>
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -14,7 +15,6 @@
 #include <json-c/printbuf.h>
 
 extern uv_loop_t* uv_loop;
-
 
 #define LOGF(fmt, ...) printf(fmt "\n", __VA_ARGS__);
 
@@ -83,7 +83,16 @@ typedef struct _client_t {
 
 typedef void (*client_cb_t)(client_t *);
 
-#define CLIENT_LOGF(c, fmt, ...) if ((c)->verbose) printf("[%d] " fmt "\n", (c)->no, __VA_ARGS__)
+static inline void CLIENT_LOGF(client_t *c, const char *fmt, ...) {
+	if (!c->verbose)
+		return ;
+	char buf[2048];
+	va_list ap;
+	va_start(ap, fmt);
+	vsnprintf(buf, sizeof(buf), fmt, ap);
+	va_end(ap);
+	fprintf(stderr, "[%d] %s\n", c->no, buf);
+}
 
 void client_init(client_t *client);
 void client_start(client_t *client);

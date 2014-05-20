@@ -21,7 +21,7 @@
 uv_loop_t* uv_loop;
 
 client_get_and_decode_jpeg_t jpeg;
-client_xiami_index_json_html_t index;
+client_xiami_index_json_html_t xindex;
 
 static void jpeg_cb(client_get_and_decode_jpeg_t *cc) {
 	int i;
@@ -44,9 +44,9 @@ static void index_cb(client_xiami_index_json_html_t *cc) {
 static void uv_main_thread(void *_) {
 	uv_loop = uv_default_loop();
 
-	index.cb = index_cb;
-	index.type = XIAMI_INDEX_JSON_HTML_COLLECTS;
-	client_start_xiami_index_json_html(&index);
+	xindex.cb = index_cb;
+	xindex.type = XIAMI_INDEX_JSON_HTML_COLLECTS;
+	client_start_xiami_index_json_html(&xindex);
 
 	uv_run(uv_loop, UV_RUN_DEFAULT);
 }
