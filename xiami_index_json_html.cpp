@@ -297,3 +297,4 @@ void test_parse_xiami_index_json_html() {
 	arr_t albums = {};
 	parse_all(&albums, obj, 0, NULL, NULL);
 }
+

@@ -78,7 +78,7 @@ static void display() {
 
 static void wait_for_data() {
 	glutPostRedisplay();
-	sleep(1000/24);
+	usleep(1000/24 * 1000);
 }
 
 void ui_glut_main(int argc, char **argv) {

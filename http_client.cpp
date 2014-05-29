@@ -2,6 +2,8 @@
 #include "fmbox.h"
 
 static void client_free(client_t *client) {
+	if (client->url_pb)
+		printbuf_free(client->url_pb);
 	if (client->pb)
 		printbuf_free(client->pb);
 	if (client->pb2)
@@ -293,5 +295,24 @@ void client_start(client_t *client) {
 		CLIENT_LOGF(client, "resolve %s", client->host);
 		uv_getaddrinfo(uv_loop, &client->resolver, on_resolved, client->host, "80", NULL);
 	}
+}
+
+static void test_echo_done(client_t *c, char *text) {
+	if (strcmp(text, "month=6&day=4"))
+}
+
+static int test_echo() {
+	client_t c = {};
+
+	c.url_pb = printfbuf_new();
+	sprintbuf(c.url_pb, "http://localhost:1989/echo?month=%d&day=%d", 6, 4);
+	c.on_text_done = test_echo_done;
+
+	client_start(&c);
+
+	return 0;
+}
+
+void unit_test_client() {
 }
 

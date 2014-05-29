@@ -13,11 +13,22 @@
 
 	 0. You just DO WHAT THE FUCK YOU WANT TO.
 */
-#include "fmbox.h"
 
-#include <stdlib.h>
+#include "fmbox2.h"
 
 uv_loop_t* uv_loop;
+
+int main() {
+	uv_loop = uv_default_loop();
+
+	static test_t t;
+	test_xml(&t);
+
+	uv_run(uv_loop, UV_RUN_DEFAULT);
+	return 0;
+}
+
+/*
 
 client_get_and_decode_jpeg_t jpeg;
 client_xiami_index_json_html_t xindex;
@@ -63,3 +74,4 @@ int main(int argc, char *argv[]) {
 	}
 }
 
+*/

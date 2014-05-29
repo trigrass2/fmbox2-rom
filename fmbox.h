@@ -67,7 +67,25 @@ typedef struct _client_t {
 
 	struct printbuf *pb, *pb2;
 
-	char *url; // when set auto generate GET and Host:
+	// set request content
+	struct printbuf *req_content_pb;
+	FILE *req_content_fp;
+
+	// set request header
+	struct printbuf *req_headers_pb[16];
+	const char *req_headers_val[16];
+	const char *req_headers_name[16];
+
+	// get response header
+	const char *resp_headers_name[16];
+	char *resp_headers_val[16];
+
+	// get response content
+	FILE *resp_content_fp;
+
+	// set request url
+	char *url; 
+	struct printbuf *url_pb;
 
 	uv_buf_t uvbuf[2]; 	// http request data
 	int uvbuf_nr;
@@ -75,6 +93,10 @@ typedef struct _client_t {
 	char *_header_field;
 	int _chunked_state;
 	int _chunked_len;
+
+	void (*on_json_done)(struct _client_t *, json_object *obj);
+	void (*on_html_done)(struct _client_t *, xml_t *xml);
+	void (*on_text_done)(struct _client_t *, char *text);
 
 	void (*on_data_done)(struct _client_t *);
 	void (*on_data)(struct _client_t *, const char *buf, size_t len);
@@ -85,6 +107,7 @@ typedef void (*client_cb_t)(client_t *);
 static inline void CLIENT_LOGF(client_t *c, const char *fmt, ...) {
 	if (!c->verbose)
 		return ;
+
 	char buf[2048];
 	va_list ap;
 	va_start(ap, fmt);
